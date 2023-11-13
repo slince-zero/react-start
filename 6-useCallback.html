@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React memo</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <!-- react.js react-dom.js babel.js -->
+    <script src="https://cdn.jsdelivr.net/npm/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      // memo 当组件已经存在时，并且组件中的属性数据不发生改变时，不需要重新渲染组件
+      // useCallback 的作用是缓存一个function，避免重复创建
+      // 参数二是一个依赖项，当依赖项不发生变化时，被缓存的方法不会被重新创建
+      const { useState, memo, useCallback } = React
+      const Item = ({ content, del, id }) => {
+        console.count("组件渲染了") // 没有引入memo之前，每次都会重新渲染Item组件
+        return <h1 onClick={() => del(id)}>{content}</h1>
+      }
+      const MemoItem = memo(Item)
+      function App() {
+        const [list, setList] = useState([])
+        const delHandle = useCallback((id) => {
+          console.log(id)
+        }, [])
+        return (
+          <div className="App">
+            <input
+              type="text"
+              placeholder="请输入内容："
+              onKeyUp={(e) => {
+                const keyCode = e.keyCode
+                const val = e.currentTarget.value
+                if (keyCode === 13 && val) {
+                  setList([...list, { id: Date.now(), content: val }])
+                }
+              }}
+            />
+            {list.map((item) => (
+              <MemoItem del={delHandle} key={item.id} {...item} />
+            ))}
+          </div>
+        )
+      }
+      // 使用ReactDOM.render把组件展示出来, 第一个参数是组件名，第二个参数是要放的位置
+      ReactDOM.render(<App />, document.getElementById("root"))
+    </script>
+  </body>
+</html>

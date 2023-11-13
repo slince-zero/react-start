@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React useEffect</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <!-- react.js react-dom.js babel.js -->
+    <script src="https://cdn.jsdelivr.net/npm/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      // useEffect 用于处理副作用操作
+      // 副作用操作是指那些不会直接修改组件状态的操作，比如访问网络请求、订阅事件、手动操作DOM等。
+      // 接收两个参数，一个回调函数，一个以来数组
+      // 依赖数组用于指定哪些状态或属性变化会触发副作用操作
+      function App() {
+        const { useState, useEffect } = React
+        const [count, setCount] = useState(0)
+        const [count2, setCount2] = useState(10)
+        // 当第二个参数（依赖数组）不存在时，每一次组件渲染都会执行
+        useEffect(() => {
+          console.log("代码执行了。。。。")
+        })
+        // 当第二个参数是空数组，那么只有初始化的时候执行一次
+        useEffect(() => {
+          console.log("初始化只执行一次")
+          return () => {
+            console.log("组件销毁时执行")
+          }
+        }, [])
+        // 当第二个参数（依赖数组）存在时，只有当依赖数组中的状态或属性发生变化时，才会执行
+        useEffect(() => {
+          console.log("count改变了")
+        },[count])
+        return (
+          <>
+            <h1>count----{count}</h1>
+            <button onClick={() => setCount(count + 1)}>count++</button>
+            <hr />
+            <h1>count2----{count2}</h1>
+            <button onClick={() => setCount2(count2 + 1)}>count++</button>
+          </>
+        )
+      }
+      // 使用ReactDOM.render把组件展示出来, 第一个参数是组件名，第二个参数是要放的位置
+      ReactDOM.render(<App />, document.getElementById("root"))
+    </script>
+  </body>
+</html>

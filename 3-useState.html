@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React useState</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <!-- react.js react-dom.js babel.js -->
+    <script src="https://cdn.jsdelivr.net/npm/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      // useState 是react新增hooks方法中的一个，用于在函数组件中声明和更新状态变量
+      // 主要组件的state或者props发生改变，组件就会重新渲染
+      // hooks只能在function定义的组件内部使用
+      const { useState } = React
+      function App() {
+        console.count("App组件渲染了") // 每次state改变，组件都会重新渲染，控制台查看
+        // useState返回一个数组，第一个元素是当前的state，第二个元素是更新state的方法
+        // useState接收一个参数作为状态的初始值
+        const [count, setCount] = useState(0)
+        const [list, setList] = useState(["小米", "华为", "苹果"])
+        const handleAdd = () => {
+          setCount(count + 1)
+        }
+        const handleAddBrand = () => {
+          setList([...list, document.querySelector("input").value])
+        }
+        return (
+          <>
+            <h1>当前计数：{count}</h1>
+            <button onClick={handleAdd}>+1</button>
+            <hr />
+            <input type="text" placeholder="请输入品牌" />{" "}
+            <button onClick={handleAddBrand}>添加</button>
+            <ul>
+              {list.map((item) => (
+                <li key={Math.random() * 100 + item}>{item}</li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+      // 使用ReactDOM.render把组件展示出来, 第一个参数是组件名，第二个参数是要放的位置
+      ReactDOM.render(<App />, document.getElementById("root"))
+    </script>
+  </body>
+</html>

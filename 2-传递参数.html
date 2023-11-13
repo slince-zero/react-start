@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React传递参数</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <!-- react.js react-dom.js babel.js -->
+    <script src="https://cdn.jsdelivr.net/npm/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      // 父传子使用props属性
+      // 组件中有一个特殊的属性 children，表示组件的中间部分，类似vue里面的插槽
+
+      //   const Demo = (props) => {
+      //     console.log(props);
+      //     const { name, desc, toParent } = props
+      //     return (
+      //       <>
+      //         {name}---{desc}
+      //         <h1>海绵宝宝1</h1>
+      //         <h1>派大星</h1>
+      //         <button
+      //           onClick={() => {
+      //             // 子组件调用父组件方法，把参数传递出去
+      //             toParent("传递了参数出去")
+      //           }}
+      //         >
+      //           点我
+      //         </button>
+      //         {props.children}
+      //       </>
+      //     )
+      //   }
+
+      const Demo = ({ children, ...rest }) => {
+        const { name, desc, toParent } = rest
+        return (
+          <>
+            {name}---{desc}
+            <h1>海绵宝宝1</h1>
+            <h1>派大星</h1>
+            <button
+              onClick={() => {
+                // 子组件调用父组件方法，把参数传递出去
+                toParent("传递了参数出去")
+              }}
+            >
+              点我
+            </button>
+            {children}
+          </>
+        )
+      }
+      const App = () => {
+        const getChildParams = (str) => {
+          console.log(str)
+        }
+        return (
+          <>
+            <h1>我是一个组件</h1>
+            <Demo name="小新" desc="今年5岁了" toParent={getChildParams}>
+              <h2>组件中间的数据1</h2>
+              <h2>组件中间的数据2</h2>
+            </Demo>
+          </>
+        )
+      }
+      ReactDOM.render(<App />, document.getElementById("root"))
+    </script>
+  </body>
+</html>
