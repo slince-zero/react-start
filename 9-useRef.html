@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React useRef</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <!-- react.js react-dom.js babel.js -->
+    <script src="https://cdn.jsdelivr.net/npm/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      // useRef 用来获取 Dom 元素
+      const { useRef } = React
+      function App() {
+        const tag1 = useRef()
+        return (
+          <>
+            <h1 ref={tag1}>我是一个组件</h1>
+            <button
+              onClick={() => {
+                console.log(tag1.current)
+              }}
+            >获取Dom</button>
+          </>
+        )
+      }
+      // 使用ReactDOM.render把组件展示出来, 第一个参数是组件名，第二个参数是要放的位置
+      ReactDOM.render(<App />, document.getElementById("root"))
+    </script>
+  </body>
+</html>
